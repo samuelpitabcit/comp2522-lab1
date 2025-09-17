@@ -55,6 +55,19 @@ public class Date {
     // Divisor for checking leap years every 400 years
     private static final int FOUR_CENTURY_DIVISOR = 400;
 
+    // Months with 31 days
+    private static final int[] HIGH_MONTHS = {1, 3, 5, 7, 8, 10, 12};
+
+    // Months with 30 days
+    private static final int[] MED_MONTHS = {4, 6, 9, 11};
+
+    private static final int FEBRUARY = 2;
+
+    private static final int FEBRUARY_DAYS = 28;
+
+    private static final int LEAP_FEBRUARY_DAYS = 29;
+
+    // Months 
     /**
      * Determines if a year is a leap year.
      * 
@@ -93,7 +106,10 @@ public class Date {
     }
 
     /**
-     * Validates date components.
+     * Validates the provided year, month, and day values to ensure they form a valid date.
+     * 
+     * Checks that the year is within the allowed range, the month is valid, and the day is valid
+     * for the given month and year including leap year handling.
      * 
      * @param year the year to validate
      * @param month the month to validate
@@ -106,18 +122,35 @@ public class Date {
             throw new IllegalArgumentException("Invalid year: " + year);
         }
 
-        final int maxDay = switch (month) {
-            case 1, 3, 5, 7, 8, 10, 12 -> 31;
-            case 2 -> isLeapYear(year) ? 29 : 28;
-            case 4, 6, 9, 11 -> 30;
-            default -> throw new IllegalArgumentException("Invalid month: " + month);
-        };
+        // Determines the number of days in the given month, considering leap years.
+        int maxDay;
+        if (month == FEBRUARY) {
+            maxDay = isLeapYear(year) ? LEAP_FEBRUARY_DAYS : FEBRUARY_DAYS;
+        } else if (contains(HIGH_MONTHS, month)) {
+            maxDay = 31;
+        } else if (contains(MED_MONTHS, month)) {
+            maxDay = 30;
+        } else {
+            throw new IllegalArgumentException("Invalid month: " + month);
+        }
 
-        final boolean dayCheck = day <= maxDay && day >= 1;
-        if (!dayCheck) {
+        // Validates the day against the maximum for the month.
+        if (day > maxDay || day < 1) {
             throw new IllegalArgumentException("Invalid day: " + day);
         }
+
     }
+
+    // Helper method to check if an array contains a value
+        private static boolean contains(final int[] arr, final int value) {
+            for (int v : arr) {
+                if (v == value) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
     /**
      * Constructs a Date object.
