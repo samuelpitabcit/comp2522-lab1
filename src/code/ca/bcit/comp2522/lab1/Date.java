@@ -46,6 +46,15 @@ public class Date {
     /** Extra days for 1800s */
     private static final int YEAR_1800_EXTRA = 2;
 
+    // The period of leap years
+    private static final int LEAP_YEAR_DIVISOR = 4;
+
+    // Divisor for checking non-leap century years
+    private static final int CENTURY_DIVISOR = 100;
+
+    // Divisor for checking leap years every 400 years
+    private static final int FOUR_CENTURY_DIVISOR = 400;
+
     /**
      * Determines if a year is a leap year.
      * 
@@ -53,7 +62,7 @@ public class Date {
      * @return true if leap year, false otherwise
      */
     public static boolean isLeapYear(final int year) {
-       return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+       return (year % LEAP_YEAR_DIVISOR == 0 && year % CENTURY_DIVISOR != 0) || (year % FOUR_CENTURY_DIVISOR == 0);
     }
 
 
