@@ -66,7 +66,7 @@ public class Date {
 
     private static void validateMonth(final int month) {
         if (month < MIN_MONTH || month > MAX_MONTH)
-            throw new IllegalArgumentException("Month must be between " + MIN_MONTH + " to " + MAX_MONTH + ".");
+            throw new IllegalArgumentException("Month must be between " + MIN_MONTH + " to " + MAX_MONTH);
     }
 
     private static void validateDay(final int year, final int month, final int day) {
@@ -101,17 +101,34 @@ public class Date {
     }
 
     /**
-     * Returns a number specifying the Date's weekday.
+     * Returns the Date's set year.
      *
-     * <pre>
-     * Saturday  -> 0
-     * Sunday    -> 1
-     * Monday    -> 2
-     * Tuesday   -> 3
-     * Wednesday -> 4
-     * Thursday  -> 5
-     * Friday    -> 6
-     * </pre>
+     * @return Integer from {@value MIN_YEAR} to {@value MAX_YEAR}.
+     */
+    public int getYear() {
+        return year;
+    }
+
+    /**
+     * Returns the Date's set month
+     *
+     * @return Integer from {@value MIN_MONTH} to {@value MAX_MONTH}
+     */
+    public int getMonth() {
+        return month;
+    }
+
+    /**
+     * Returns the Date's set day
+     *
+     * @return Integer from {@value MIN_DAY} to a month-and-year-specific maximum.
+     */
+    public int getDay() {
+        return day;
+    }
+
+    /**
+     * Returns a number specifying the Date's weekday.
      *
      * @return A number from 0 to 6.
      */
@@ -174,7 +191,7 @@ public class Date {
         else if (weekday == FRIDAY)
             return "Friday";
 
-        throw new IllegalArgumentException("Weekday number is not between 0 to 6.");
+        throw new IllegalArgumentException("Weekday number is not between 0 to 6");
     }
 
     /**
@@ -187,11 +204,11 @@ public class Date {
 
         yyyyMmDd = new StringBuilder();
 
-        yyyyMmDd.append(this.year);
+        yyyyMmDd.append(String.format("%04d", this.year));
         yyyyMmDd.append("-");
-        yyyyMmDd.append(this.month);
+        yyyyMmDd.append(String.format("%02d", this.month));
         yyyyMmDd.append("-");
-        yyyyMmDd.append(this.day);
+        yyyyMmDd.append(String.format("%02d", this.day));
 
         return yyyyMmDd.toString();
     }
