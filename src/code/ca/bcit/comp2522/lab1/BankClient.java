@@ -5,7 +5,7 @@ package ca.bcit.comp2522.lab1;
  * Represents a bank client with personal information and account details.
  * Manages client data including name, dates, and client ID.
  * 
- * @author Jacob, Samuel, Meiko
+ * @author Jacob, Samuel, Meiko, Son
  * @version 1.0
  */
 public class BankClient {
@@ -52,7 +52,7 @@ public class BankClient {
      * Constructs a BankClient object.
      * 
      * @param clientname the client's name
-     * @param birthDate the client's birth date
+     * @param birthDate the client's birthdate
      * @param deathDate the client's death date (null if alive)
      * @param signupDate the date the client joined the bank
      * @param clientID the client's unique ID
@@ -92,7 +92,7 @@ public class BankClient {
      * @return formatted string with client details
      */
     public String getDetails() {
-        return clientname.getFullName() + " client #" + clientID + " (" + (isAlive() ? "alive" : "died") + ") joined the bank on " + signupDate.getDayOfTheWeek().toLowerCase() + ", " + formatMonth(signupDate.getMonth()) + " " + signupDate.getDay() + ", " + signupDate.getYear();
+        return clientname.getFullName() + " client #" + clientID + " (" + (isAlive() ? "alive" : "died") + ") joined the bank on " + signupDate.getWeekdayAsString().toLowerCase() + ", " + formatMonth(signupDate.getMonth()) + " " + signupDate.getDay() + ", " + signupDate.getYear();
     }
 
     /**

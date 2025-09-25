@@ -2,203 +2,347 @@ package ca.bcit.comp2522.lab1;
 
 /**
  * Simple date class with day-month-year parameters.
- * Supports years 1800 to 2025.
  *
- * @author Jacob, Samuel, May
+ * @author Jacob, May, Samuel, Son
  * @version 1.0
  */
 public class Date {
+    /*
+     * The number of days for each month. February has separate
+     * number of days for leap and non-leap years.
+     */
+    private static final int JANUARY_DAYS     = 31;
+    private static final int FEBRUARY_DAYS_L  = 29;
+    private static final int FEBRUARY_DAYS_NL = 28;
+    private static final int MARCH_DAYS       = 31;
+    private static final int APRIL_DAYS       = 30;
+    private static final int MAY_DAYS         = 31;
+    private static final int JUNE_DAYS        = 30;
+    private static final int JULY_DAYS        = 31;
+    private static final int AUGUST_DAYS      = 31;
+    private static final int SEPTEMBER_DAYS   = 30;
+    private static final int OCTOBER_DAYS     = 31;
+    private static final int NOVEMBER_DAYS    = 30;
+    private static final int DECEMBER_DAYS    = 31;
 
+    /*
+     * The numbers for each month that is added to the weekday sum calculation.
+     */
+    private static final int JANUARY_WC_MONTH_CODE   = 1;
+    private static final int FEBRUARY_WC_MONTH_CODE  = 4;
+    private static final int MARCH_WC_MONTH_CODE     = 4;
+    private static final int MAY_WC_MONTH_CODE       = 2;
+    private static final int JUNE_WC_MONTH_CODE      = 5;
+    private static final int AUGUST_WC_MONTH_CODE    = 3;
+    private static final int SEPTEMBER_WC_MONTH_CODE = 6;
+    private static final int OCTOBER_WC_MONTH_CODE   = 1;
+    private static final int NOVEMBER_WC_MONTH_CODE  = 4;
+    private static final int DECEMBER_WC_MONTH_CODE  = 6;
+
+    /*
+     * Constants for calculating the weekdays of a given date.
+     */
+    private static final int WEEKDAY_CALC_START_NUM_1800 = 2;
+    private static final int WEEKDAY_CALC_START_NUM_1900 = 0;
+    private static final int WEEKDAY_CALC_START_NUM_2000 = 6;
+    private static final int WEEKDAY_CALC_JF_LY_NUM = 6;
+    private static final int WEEKDAY_CALC_FIRST_DIV = 12;
+    private static final int WEEKDAY_CALC_SECOND_DIV = 4;
+
+    /*
+     * Used for comparing against the Date's year, rounded to the nearest
+     * century.
+     */
+    private static final int YEAR_1800 = 1800;
+    private static final int YEAR_1900 = 1900;
+    private static final int YEAR_2000 = 2000;
+
+    /*
+     * Numerical month constants.
+     */
+    private static final int JANUARY   = 1;
+    private static final int FEBRUARY  = 2;
+    private static final int MARCH     = 3;
+    private static final int APRIL     = 4;
+    private static final int MAY       = 5;
+    private static final int JUNE      = 6;
+    private static final int JULY      = 7;
+    private static final int AUGUST    = 8;
+    private static final int SEPTEMBER = 9;
+    private static final int OCTOBER   = 10;
+    private static final int NOVEMBER  = 11;
+    private static final int DECEMBER  = 12;
+
+    /*
+     * Numerical weekday constants.
+     */
+    private static final int SATURDAY  = 0;
+    private static final int SUNDAY    = 1;
+    private static final int MONDAY    = 2;
+    private static final int TUESDAY   = 3;
+    private static final int WEDNESDAY = 4;
+    private static final int THURSDAY  = 5;
+    private static final int FRIDAY    = 6;
+
+    /*
+     * Year, month, and day minimums and maximums.
+     */
+    private static final int MIN_YEAR  = 1800;
+    private static final int MAX_YEAR  = 2025;
+    private static final int MIN_MONTH = 1;
+    private static final int MAX_MONTH = 12;
+    private static final int MIN_DAY   = 1;
+
+    /*
+     * Number of units of time for one unit of time.
+     */
+    private static final int NUM_DAYS_IN_WEEK     = 7;
+    private static final int NUM_YEARS_IN_CENTURY = 100;
+
+    // Instance variables.
     private final int year;
     private final int month;
     private final int day;
-    
-    /** Current year for validation */
-    public static final int CURRENT_YEAR = 2025;
-    
-    /** Minimum valid year */
-    private static final int MIN_YEAR = 1800;
-    
-    /** Maximum valid year */
-    private static final int MAX_YEAR = CURRENT_YEAR;
-    
-    /** Number of months in a year */
-    private static final int MONTHS_IN_YEAR = 12;
-    
-    /** Days in a week */
-    private static final int DAYS_IN_WEEK = 7;
-    
-    /** Month codes for day-of-week calculation */
-    private static final int[] MONTH_CODES = {1, 4, 4, 0, 2, 5, 0, 3, 6, 1, 4, 6};
-    
-    /** Divider for year calculation */
-    private static final int YEAR_DIVIDER = 12;
-    
-    /** Divider for remainder calculation */
-    private static final int REMAINDER_DIVIDER = 4;
-    
-    /** Extra days for leap years */
-    private static final int LEAP_YEAR_EXTRA = 6;
-    
-    /** Extra days for 2000s */
-    private static final int YEAR_2000_EXTRA = 6;
-    
-    /** Extra days for 1800s */
-    private static final int YEAR_1800_EXTRA = 2;
 
     /**
-     * Determines if a year is a leap year.
-     * 
-     * @param year the year to check
-     * @return true if leap year, false otherwise
-     */
-    public static boolean isLeapYear(final int year) {
-       return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-    }
-
-
-    /**
-     * Creates a Date object using a static factory method.
-     * Returns null if any argument is null.
-     * 
-     * @param args array containing year, month, day
-     * @return new Date object or null if invalid
-     * @throws IllegalArgumentException if date values are invalid
-     */
-    public static Date createDate(final Integer... args) {
-        if (args == null) {
-            return null;
-        }
-
-        for (Integer i : args) {
-        if (i == null) return null;
-        }
-
-        final int yearValue = args[0].intValue();
-        final int monthValue = args[1].intValue();
-        final int dayValue = args[2].intValue();
-
-        validateDate(yearValue, monthValue, dayValue);
-
-        return new Date(yearValue, monthValue, dayValue);
-    }
-
-    /**
-     * Validates date components.
-     * 
-     * @param year the year to validate
-     * @param month the month to validate
-     * @param day the day to validate
-     * @throws IllegalArgumentException if any date component is invalid
-     */
-    private static void validateDate(final int year, final int month, final int day) {
-        final boolean yearCheck = year <= MAX_YEAR && year >= MIN_YEAR;
-        if (!yearCheck) {
-            throw new IllegalArgumentException("Invalid year: " + year);
-        }
-
-        final int maxDay = switch (month) {
-            case 1, 3, 5, 7, 8, 10, 12 -> 31;
-            case 2 -> isLeapYear(year) ? 29 : 28;
-            case 4, 6, 9, 11 -> 30;
-            default -> throw new IllegalArgumentException("Invalid month: " + month);
-        };
-
-        final boolean dayCheck = day <= maxDay && day >= 1;
-        if (!dayCheck) {
-            throw new IllegalArgumentException("Invalid day: " + day);
-        }
-    }
-
-    /**
-     * Constructs a Date object.
-     * 
-     * @param year the year (1800-2025)
-     * @param month the month (1-12)
-     * @param day the day (1-31, varies by month)
+     * Constructs the date with the given year, month, and day.
+     *
+     * @param year Integer from {@value MIN_YEAR} to {@value MAX_YEAR}.
+     * @param month Integer from {@value MIN_MONTH} to {@value MAX_MONTH}.
+     * @param day Integer from {@value MIN_DAY} to a month-and-year-specific maximum.
      */
     public Date(final int year, final int month, final int day) {
-        validateDate(year, month, day);
-        this.year = year;
+        validateYear(year);
+        validateMonth(month);
+        validateDay(year, month, day);
+
+        this.year  = year;
         this.month = month;
-        this.day = day;
+        this.day   = day;
     }
 
+    private static void validateYear(final int year) {
+        if (year < MIN_YEAR)
+            throw new IllegalArgumentException("Year must be at, or after " + MIN_YEAR);
+        else if (year > MAX_YEAR)
+            throw new IllegalArgumentException("Year must be at, or before " + MAX_YEAR);
+    }
+
+    private static void validateMonth(final int month) {
+        if (month < MIN_MONTH || month > MAX_MONTH)
+            throw new IllegalArgumentException("Month must be between " + MIN_MONTH + " to " + MAX_MONTH);
+    }
+
+    private static void validateDay(final int year, final int month, final int day) {
+        final int maxDayOfMonth;
+
+        // Set the maximum number of days allowed, depending on the month.
+        if (month == JANUARY)
+            maxDayOfMonth = JANUARY_DAYS;
+        else if (month == FEBRUARY) {
+            if (isLeapYear(year))
+                maxDayOfMonth = FEBRUARY_DAYS_L;
+            else
+                maxDayOfMonth = FEBRUARY_DAYS_NL;
+        }
+        else if (month == MARCH)
+            maxDayOfMonth = MARCH_DAYS;
+        else if (month == APRIL)
+            maxDayOfMonth = APRIL_DAYS;
+        else if (month == MAY)
+            maxDayOfMonth = MAY_DAYS;
+        else if (month == JUNE)
+            maxDayOfMonth = JUNE_DAYS;
+        else if (month == JULY)
+            maxDayOfMonth = JULY_DAYS;
+        else if (month == AUGUST)
+            maxDayOfMonth = AUGUST_DAYS;
+        else if (month == SEPTEMBER)
+            maxDayOfMonth = SEPTEMBER_DAYS;
+        else if (month == OCTOBER)
+            maxDayOfMonth = OCTOBER_DAYS;
+        else if (month == NOVEMBER)
+            maxDayOfMonth = NOVEMBER_DAYS;
+        else if (month == DECEMBER)
+            maxDayOfMonth = DECEMBER_DAYS;
+        else
+            throw new IllegalArgumentException("Month must be between " + MIN_MONTH + " and " + MAX_MONTH);
+
+        if (day > maxDayOfMonth)
+            throw new IllegalArgumentException("Day must be between " + MIN_DAY + " and " + maxDayOfMonth);
+    }
 
     /**
-     * Gets the day of the month.
-     * 
-     * @return the day (1-31)
+     * Determines if the year is a leap year.
+     *
+     * @return {@code true} if the year is a leap year; {@code false} otherwise.
      */
-    public int getDay() {
-        return day;
+    public static boolean isLeapYear(final int year) {
+        final int firstDivisor;
+        final int secondDivisor;
+        final int thirdDivisor;
+
+        firstDivisor  = 4;
+        secondDivisor = 100;
+        thirdDivisor  = 400;
+
+        /*
+         * The given year is a leap year if it's divisible by 4.
+         * It's not divisible if the year is divisible by 100, unless
+         * it's divisible by 400, then it's a leap year.
+         */
+        return ((year % firstDivisor  == 0)
+            && (year % secondDivisor != 0))
+            || (year % thirdDivisor  == 0);
     }
-    
+
     /**
-     * Gets the month.
-     * 
-     * @return the month (1-12)
-     */
-    public int getMonth() {
-        return month;
-    }
-    
-    /**
-     * Gets the year.
-     * 
-     * @return the year
+     * Returns the Date's set year.
+     *
+     * @return Integer from {@value MIN_YEAR} to {@value MAX_YEAR}.
      */
     public int getYear() {
         return year;
     }
 
     /**
-     * Gets the date in YYYY-MM-DD format.
-     * 
-     * @return formatted date string
+     * Returns the Date's set month
+     *
+     * @return Integer from {@value MIN_MONTH} to {@value MAX_MONTH}
      */
-    public String getYYYYMMDD() {
-        return year + "-" + month + "-" + day;
+    public int getMonth() {
+        return month;
     }
 
     /**
-     * Calculates the day of the week for this date.
-     * 
-     * @return the day of the week (Saturday through Friday)
+     * Returns the Date's set day
+     *
+     * @return Integer from {@value MIN_DAY} to a month-and-year-specific maximum.
      */
-    public String getDayOfTheWeek() {
-        final int step1 = this.year % 100 / YEAR_DIVIDER;
-        final int step2 = this.year % 100 % YEAR_DIVIDER;
-        final int step3 = step2 / REMAINDER_DIVIDER;
-        final int step4 = step1 + step2 + step3 + switch (this.month) {
-            case 1, 3, 5, 7, 8, 10, 12 -> 31;
-            case 2 -> isLeapYear(year) ? 29 : 28;
-            case 4, 6, 9, 11 -> 30;
-            default -> throw new IllegalStateException("An error has occurred on month");
-        };
-        final int step5 = step4 + MONTH_CODES[this.month - 1];
-
-        int extra = 0;
-        if (isLeapYear(year) && (month == 2 || month == 1)) {
-            extra += LEAP_YEAR_EXTRA;
-        }
-        if (year / 1000 == 2) {
-            extra += YEAR_2000_EXTRA;
-        }
-        if (year / 100 == 18) {
-            extra += YEAR_1800_EXTRA;
-        }
-        final int step6 = (step5 + extra) % DAYS_IN_WEEK;
-        return switch (step6) {
-            case 0 -> "Saturday";
-            case 1 -> "Sunday";
-            case 2 -> "Monday";
-            case 3 -> "Tuesday";
-            case 4 -> "Wednesday";
-            case 5 -> "Thursday";
-            case 6 -> "Friday";
-            default -> throw new IllegalStateException("An error has occurred on MoD function");
-        };
+    public int getDay() {
+        return day;
     }
 
+    /**
+     * Returns a number specifying the Date's weekday.
+     *
+     * @return A number from 0 to 6.
+     */
+    public int getWeekday() {
+        int sum;
+        final int floorYear;
+        final int lastTwoDigitsOfYear;
+        final int divFirstDivisor;
+        final int modFirstDivisor;
+        final int divSecondDivisor;
+
+        // Floor the year by a century.
+        floorYear = this.year - (this.year % NUM_YEARS_IN_CENTURY);
+
+        // Set the starting sum according to the century the year belongs to.
+        if (floorYear == YEAR_1800)
+            sum = WEEKDAY_CALC_START_NUM_1800;
+        else if (floorYear == YEAR_1900)
+            sum = WEEKDAY_CALC_START_NUM_1900;
+        else if (floorYear == YEAR_2000)
+            sum = WEEKDAY_CALC_START_NUM_2000;
+        else
+            throw new IllegalArgumentException("Year must be between " + MIN_YEAR + " and " + MAX_YEAR);
+
+        /*
+         * Add the extra value if the month falls in the first 2 months,
+         * and the year is a leap year.
+         */
+        if (isLeapYear(this.year))
+            if (this.month == JANUARY || this.month == FEBRUARY)
+                sum += WEEKDAY_CALC_JF_LY_NUM;
+
+        lastTwoDigitsOfYear = this.year % NUM_YEARS_IN_CENTURY;
+
+        // (Step 1) Divide last two digits of year by 12.
+        divFirstDivisor = lastTwoDigitsOfYear / WEEKDAY_CALC_FIRST_DIV;
+        // (Step 2) Remainder of dividing last two digits of year by 12.
+        modFirstDivisor = lastTwoDigitsOfYear % WEEKDAY_CALC_FIRST_DIV;
+
+        // (Step 3) Divide the remainder by 4.
+        divSecondDivisor = modFirstDivisor / WEEKDAY_CALC_SECOND_DIV;
+
+        // (Step 4) Sum up all previous calculations.
+        sum += this.day;
+        sum += divFirstDivisor;
+        sum += modFirstDivisor;
+        sum += divSecondDivisor;
+
+        // (Step 5) Add the month code to the sum.
+        if (this.month == JANUARY)
+            sum += JANUARY_WC_MONTH_CODE;
+        else if (this.month == FEBRUARY)
+            sum += FEBRUARY_WC_MONTH_CODE;
+        else if (this.month == MARCH)
+            sum += MARCH_WC_MONTH_CODE;
+        else if (this.month == MAY)
+            sum += MAY_WC_MONTH_CODE;
+        else if (this.month == JUNE)
+            sum += JUNE_WC_MONTH_CODE;
+        else if (this.month == AUGUST)
+            sum += AUGUST_WC_MONTH_CODE;
+        else if (this.month == SEPTEMBER)
+            sum += SEPTEMBER_WC_MONTH_CODE;
+        else if (this.month == OCTOBER)
+            sum += OCTOBER_WC_MONTH_CODE;
+        else if (this.month == NOVEMBER)
+            sum += NOVEMBER_WC_MONTH_CODE;
+        else if (this.month == DECEMBER)
+            sum += DECEMBER_WC_MONTH_CODE;
+
+        // (Step 6 + 7) Return the remainder of dividing the sum by the number of weeks.
+        return sum % NUM_DAYS_IN_WEEK;
+    }
+
+    /**
+     * Returns a String specifying the Date's weekday.
+     *
+     * @return Saturday, Sunday, Monday, Tuesday, Wednesday, Thursday, or Friday.
+     */
+    public String getWeekdayAsString() {
+        final int weekday;
+
+        weekday = getWeekday();
+
+        if (weekday == SATURDAY)
+            return "Saturday";
+        else if (weekday == SUNDAY)
+            return "Sunday";
+        else if (weekday == MONDAY)
+            return "Monday";
+        else if (weekday == TUESDAY)
+            return "Tuesday";
+        else if (weekday == WEDNESDAY)
+            return "Wednesday";
+        else if (weekday == THURSDAY)
+            return "Thursday";
+        else if (weekday == FRIDAY)
+            return "Friday";
+
+        throw new IllegalArgumentException("Weekday number is not between 0 to 6");
+    }
+
+    /**
+     * Returns the date as a {@code String} in YYYY-MM-DD format.
+     *
+     * @return {@code String} date in YYYY-MM-DD format.
+     */
+    public String getYyyyMmDd() {
+        final StringBuilder yyyyMmDd;
+
+        yyyyMmDd = new StringBuilder();
+
+        yyyyMmDd.append(String.format("%04d", this.year));
+        yyyyMmDd.append("-");
+        yyyyMmDd.append(String.format("%02d", this.month));
+        yyyyMmDd.append("-");
+        yyyyMmDd.append(String.format("%02d", this.day));
+
+        return yyyyMmDd.toString();
+    }
 }

@@ -4,7 +4,7 @@ package ca.bcit.comp2522.lab1;
  * Represents a bank account with balance, client, and transaction methods.
  * Manages account operations like deposits and withdrawals.
  * 
- * @author Jacob, Samuel, Meiko
+ * @author Jacob, Samuel, Meiko, Son
  * @version 1.0
  */
 public class BankAccount {
@@ -35,14 +35,15 @@ public class BankAccount {
     /**
      * Constructs a BankAccount object.
      *
-     * @param client the account owner
-     * @param accountNumber the account number
-     * @param accountOpened the date the account was opened
-     * @param accountClosed the date the account was closed (null if still open)
-     * @param pin the account PIN
+     * @param client                 the account owner
+     * @param accountNumber          the account number
+     * @param accountOpened          the date the account was opened
+     * @param accountClosed          the date the account was closed (null if still open)
+     * @param initialBalance         the account initial balance
+     * @param pin                    the account PIN
      */
     public BankAccount(final BankClient client, final String accountNumber,
-                       final Date accountOpened, final Date accountClosed, final int pin) {
+                       final Date accountOpened, final Date accountClosed, double initialBalance, final int pin) {
         validateAccountNumber(accountNumber);
         this.client = client;
         this.accountNumber = accountNumber;
@@ -116,8 +117,8 @@ public class BankAccount {
      */
     public String getDetails() {
         return client.getClientName().getFullName() + " had $" + this.balance + " USD in account #"
-                + this.accountNumber + " which he opened on " + accountOpened.getDayOfTheWeek() + " " + formatMonth(accountOpened.getMonth()) + " " + accountOpened.getDay() + ", " + accountOpened.getYear()
-                + (accountClosed == null ? "" : " and closed " + accountClosed.getDayOfTheWeek() + " " + formatMonth(accountClosed.getMonth()) + " " + accountClosed.getDay() + ", " + accountClosed.getYear());
+                + this.accountNumber + " which he opened on " + accountOpened.getWeekdayAsString() + " " + formatMonth(accountOpened.getMonth()) + " " + accountOpened.getDay() + ", " + accountOpened.getYear()
+                + (accountClosed == null ? "" : " and closed " + accountClosed.getWeekdayAsString() + " " + formatMonth(accountClosed.getMonth()) + " " + accountClosed.getDay() + ", " + accountClosed.getYear());
     }
 
     /**

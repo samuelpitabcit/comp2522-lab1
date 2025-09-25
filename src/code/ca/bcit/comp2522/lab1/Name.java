@@ -3,7 +3,7 @@ package ca.bcit.comp2522.lab1;
 /**
  * Simple name class with first and last name parameters.
  *
- * @author  Samuel Pita
+ * @author  Samuel Pita, Son
  * @version 1.0
  */
 public class Name {
