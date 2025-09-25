@@ -40,12 +40,14 @@ public class Date {
     private static final int DECEMBER_WC_MONTH_CODE  = 6;
 
     /*
-     * Starting numbers for each century, used in calculating the weekday
-     * of a date.
+     * Constants for calculating the weekdays of a given date.
      */
     private static final int WEEKDAY_CALC_START_NUM_1800 = 2;
     private static final int WEEKDAY_CALC_START_NUM_1900 = 0;
     private static final int WEEKDAY_CALC_START_NUM_2000 = 6;
+    private static final int WEEKDAY_CALC_JF_LY_NUM = 6;
+    private static final int WEEKDAY_CALC_FIRST_DIV = 12;
+    private static final int WEEKDAY_CALC_SECOND_DIV = 4;
 
     /*
      * Used for comparing against the Date's year, rounded to the nearest
@@ -54,12 +56,6 @@ public class Date {
     private static final int YEAR_1800 = 1800;
     private static final int YEAR_1900 = 1900;
     private static final int YEAR_2000 = 2000;
-
-    /*
-     * The number added to the weekday sum calculation in January and February
-     * months in a leap year.
-     */
-    private static final int WEEKDAY_CALC_JF_LY_NUM = 6;
 
     /*
      * Numerical month constants.
@@ -196,8 +192,8 @@ public class Date {
          * it's divisible by 400, then it's a leap year.
          */
         return ((year % firstDivisor  == 0)
-             && (year % secondDivisor != 0))
-             || (year % thirdDivisor  == 0);
+            && (year % secondDivisor != 0))
+            || (year % thirdDivisor  == 0);
     }
 
     /**
@@ -236,10 +232,8 @@ public class Date {
         int sum;
         final int floorYear;
         final int lastTwoDigitsOfYear;
-        final int firstDivisor;
         final int divFirstDivisor;
         final int modFirstDivisor;
-        final int secondDivisor;
         final int divSecondDivisor;
 
         // Floor the year by a century.
@@ -265,15 +259,13 @@ public class Date {
 
         lastTwoDigitsOfYear = this.year % NUM_YEARS_IN_CENTURY;
 
-        firstDivisor    = 12;
         // (Step 1) Divide last two digits of year by 12.
-        divFirstDivisor = lastTwoDigitsOfYear / firstDivisor;
+        divFirstDivisor = lastTwoDigitsOfYear / WEEKDAY_CALC_FIRST_DIV;
         // (Step 2) Remainder of dividing last two digits of year by 12.
-        modFirstDivisor = lastTwoDigitsOfYear % firstDivisor;
+        modFirstDivisor = lastTwoDigitsOfYear % WEEKDAY_CALC_FIRST_DIV;
 
-        secondDivisor    = 4;
         // (Step 3) Divide the remainder by 4.
-        divSecondDivisor = modFirstDivisor / secondDivisor;
+        divSecondDivisor = modFirstDivisor / WEEKDAY_CALC_SECOND_DIV;
 
         // (Step 4) Sum up all previous calculations.
         sum += this.day;
