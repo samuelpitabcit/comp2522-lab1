@@ -3,7 +3,7 @@ package ca.bcit.comp2522.lab1;
 /**
  * Simple date class with day-month-year parameters.
  *
- * @author Jacob, May, Samuel
+ * @author Jacob, May, Samuel, Son
  * @version 1.0
  */
 public class Date {
