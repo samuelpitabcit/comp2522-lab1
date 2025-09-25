@@ -61,6 +61,9 @@ public class Date {
      */
     private static final int WEEKDAY_CALC_JF_LY_NUM = 6;
 
+    /*
+     * Numerical month constants.
+     */
     private static final int JANUARY   = 1;
     private static final int FEBRUARY  = 2;
     private static final int MARCH     = 3;
@@ -74,6 +77,9 @@ public class Date {
     private static final int NOVEMBER  = 11;
     private static final int DECEMBER  = 12;
 
+    /*
+     * Numerical weekday constants.
+     */
     private static final int SATURDAY  = 0;
     private static final int SUNDAY    = 1;
     private static final int MONDAY    = 2;
@@ -82,15 +88,22 @@ public class Date {
     private static final int THURSDAY  = 5;
     private static final int FRIDAY    = 6;
 
+    /*
+     * Year, month, and day minimums and maximums.
+     */
     private static final int MIN_YEAR  = 1800;
     private static final int MAX_YEAR  = 2025;
     private static final int MIN_MONTH = 1;
     private static final int MAX_MONTH = 12;
     private static final int MIN_DAY   = 1;
 
+    /*
+     * Number of units of time for one unit of time.
+     */
     private static final int NUM_DAYS_IN_WEEK     = 7;
     private static final int NUM_YEARS_IN_CENTURY = 100;
 
+    // Instance variables.
     private final int year;
     private final int month;
     private final int day;
