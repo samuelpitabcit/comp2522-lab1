@@ -247,3 +247,6 @@ tmp/
 # OS generated files
 .DS_Store?
 Icon?
+
+# Java compiled files
+out/

@@ -131,6 +131,5 @@ public class Main {
 
         chanAccount.withdraw(CHAN_WITHDRAW_AMOUNT);
         System.out.println(chanAccount.getDetails());
-
     }
 }
