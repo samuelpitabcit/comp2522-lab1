@@ -3,10 +3,11 @@ package ca.bcit.comp2522.lab1;
 /**
  * Simple name class with first and last name parameters.
  *
- * @author  Samuel Pita, Son
+ * @author Samuel Pita, Son
  * @version 1.0
  */
-public class Name {
+public class Name
+{
     private final String first;
     private final String last;
 
@@ -16,24 +17,30 @@ public class Name {
      * @param first The first name.
      * @param last  The last name.
      */
-    public Name(final String first, final String last) {
+    public Name(final String first,
+                final String last)
+    {
         this.first = first;
-        this.last = last;
+        this.last  = last;
     }
 
-    private static String reverseString(final String string) {
+    private static String reverseString(final String string)
+    {
         if (string == null)
+        {
             throw new NullPointerException();
+        }
 
         char[] chars;
-        int    left;
-        int    right;
+        int left;
+        int right;
 
         chars = string.toCharArray();
         left  = 0;
         right = chars.length - 1;
 
-        while (left < right) {
+        while (left < right)
+        {
             char temp;
 
             temp         = chars[left];
@@ -53,12 +60,13 @@ public class Name {
      *
      * @return A {@code String} containing the two initials.
      */
-    public String getInitials() {
+    public String getInitials()
+    {
         final char firstNameInitial;
         final char lastNameInitial;
 
         firstNameInitial = this.first.charAt(0);
-        lastNameInitial = this.last.charAt(0);
+        lastNameInitial  = this.last.charAt(0);
 
         return "" + firstNameInitial + lastNameInitial;
     }
@@ -69,7 +77,8 @@ public class Name {
      *
      * @return A {@code String} representing the full name.
      */
-    public String getFullName() {
+    public String getFullName()
+    {
         return this.first + " " + this.last;
     }
 
@@ -80,7 +89,8 @@ public class Name {
      *
      * @return A {@code String} representing the full name.
      */
-    public String getReversedFullName() {
+    public String getReversedFullName()
+    {
         return reverseString(getFullName());
     }
 }

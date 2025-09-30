@@ -3,11 +3,12 @@ package ca.bcit.comp2522.lab1;
 /**
  * Main class for testing the banking system simulation.
  * Creates test cases for Albert Einstein, Nelson Mandela, Frida Kahlo, and Jackie Chan.
- * 
+ *
  * @author Jacob, Samuel, Meiko, Son
  * @version 1.0
  */
-public class Main {
+public class Main
+{
     // Albert Einstein test case
     private static final Name EINSTEIN_NAME = new Name("Albert", "Einstein");
     private static final Date EINSTEIN_BIRTH_DATE = new Date(1879, 3, 14);
@@ -58,16 +59,17 @@ public class Main {
      *
      * @param args command line arguments (not used)
      */
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
 
         // Albert Einstein test case
         final BankClient einsteinClient = new BankClient(
-                EINSTEIN_NAME, EINSTEIN_BIRTH_DATE, EINSTEIN_DEATH_DATE,
-                EINSTEIN_SIGNUP_DATE, EINSTEIN_CLIENT_ID);
+            EINSTEIN_NAME, EINSTEIN_BIRTH_DATE, EINSTEIN_DEATH_DATE,
+            EINSTEIN_SIGNUP_DATE, EINSTEIN_CLIENT_ID);
 
         final BankAccount einsteinAccount = new BankAccount(
-                einsteinClient, EINSTEIN_ACCOUNT_NUMBER, EINSTEIN_SIGNUP_DATE,
-                EINSTEIN_CLOSE_DATE, EINSTEIN_INITIAL_BALANCE, EINSTEIN_PIN);
+            einsteinClient, EINSTEIN_ACCOUNT_NUMBER, EINSTEIN_SIGNUP_DATE,
+            EINSTEIN_CLOSE_DATE, EINSTEIN_INITIAL_BALANCE, EINSTEIN_PIN);
 
         System.out.println(EINSTEIN_NAME.getInitials());
         System.out.println(EINSTEIN_NAME.getFullName());
@@ -80,12 +82,12 @@ public class Main {
 
         // Nelson Mandela test case
         BankClient mandelaClient = new BankClient(
-                MANDELA_NAME, MANDELA_BIRTH_DATE, MANDELA_DEATH_DATE,
-                MANDELA_SIGNUP_DATE, MANDELA_CLIENT_ID);
+            MANDELA_NAME, MANDELA_BIRTH_DATE, MANDELA_DEATH_DATE,
+            MANDELA_SIGNUP_DATE, MANDELA_CLIENT_ID);
 
         BankAccount mandelaAccount = new BankAccount(
-                mandelaClient, MANDELA_ACCOUNT_NUMBER, MANDELA_SIGNUP_DATE,
-                null, MANDELA_INITIAL_BALANCE, MANDELA_PIN);
+            mandelaClient, MANDELA_ACCOUNT_NUMBER, MANDELA_SIGNUP_DATE,
+            null, MANDELA_INITIAL_BALANCE, MANDELA_PIN);
 
         System.out.println(MANDELA_NAME.getInitials());
         System.out.println(MANDELA_NAME.getFullName());
@@ -98,12 +100,12 @@ public class Main {
 
         // Frida Kahlo test case
         BankClient kahloClient = new BankClient(
-                KAHLO_NAME, KAHLO_BIRTH_DATE, KAHLO_DEATH_DATE,
-                KAHLO_SIGNUP_DATE, KAHLO_CLIENT_ID);
+            KAHLO_NAME, KAHLO_BIRTH_DATE, KAHLO_DEATH_DATE,
+            KAHLO_SIGNUP_DATE, KAHLO_CLIENT_ID);
 
         BankAccount kahloAccount = new BankAccount(
-                kahloClient, KAHLO_ACCOUNT_NUMBER, KAHLO_SIGNUP_DATE,
-                KAHLO_CLOSE_DATE, KAHLO_INITIAL_BALANCE, KAHLO_PIN);
+            kahloClient, KAHLO_ACCOUNT_NUMBER, KAHLO_SIGNUP_DATE,
+            KAHLO_CLOSE_DATE, KAHLO_INITIAL_BALANCE, KAHLO_PIN);
 
         System.out.println(KAHLO_NAME.getInitials());
         System.out.println(KAHLO_NAME.getFullName());
@@ -116,12 +118,12 @@ public class Main {
 
         // Jackie Chan test case
         BankClient chanClient = new BankClient(
-                CHAN_NAME, CHAN_BIRTH_DATE, null,
-                CHAN_SIGNUP_DATE, CHAN_CLIENT_ID);
+            CHAN_NAME, CHAN_BIRTH_DATE, null,
+            CHAN_SIGNUP_DATE, CHAN_CLIENT_ID);
 
         BankAccount chanAccount = new BankAccount(
-                chanClient, CHAN_ACCOUNT_NUMBER, CHAN_SIGNUP_DATE,
-                null, CHAN_INITIAL_BALANCE, CHAN_PIN);
+            chanClient, CHAN_ACCOUNT_NUMBER, CHAN_SIGNUP_DATE,
+            null, CHAN_INITIAL_BALANCE, CHAN_PIN);
 
         System.out.println(CHAN_NAME.getInitials());
         System.out.println(CHAN_NAME.getFullName());
